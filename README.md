@@ -14,14 +14,13 @@ Handles:
 Does not handle:
   - Array reference deduplication (will anyone need this? would have to add wrappers all over)
   - function serialization (closures would be hell)
-  - more obscure data types like Map, Set, Symbol (some could be added fairly easily)
+  - more obscure data types like Map, Set, Symbol (some could be added fairly easily if anyone needs them)
   - side effects in constructors (don't do this anyway please)
   - very old javascript versions
   - And Much More!
 
 If you want it to do something else, you're probably better off just editing the code for your own needs rather than trying to make this package customizable.
 
-Currently untested, because to test it wouldn't be wack enough
 
 ## Installation
 

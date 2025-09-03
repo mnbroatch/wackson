@@ -10,7 +10,7 @@ export function serialize (state, options) {
         return { _instanceReference: duplicateId }
       }
 
-      const copy = Array.isArray(value) ? [...value] : { ...value }
+      const copy = { ...value }
 
       if (duplicateId === null) {
         const id = Math.random()
