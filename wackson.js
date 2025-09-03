@@ -1,6 +1,7 @@
 export function serialize (state, options) {
   // preliminary scan allows us to tag only duplicate instances
-  const duplicatesMap = new Map([...walkCyclical(state).duplicates].map(d => [d, null]))
+  const duplicates = [...walkCyclical(state).duplicates]
+  const duplicatesMap = new Map(duplicates.map(d => [d, null]))
 
   // Second pass: replace repeated instances with placeholders, add _constructorName
   return JSON.stringify(state, (_, value) => {
@@ -13,7 +14,7 @@ export function serialize (state, options) {
       const copy = { ...value }
 
       if (duplicateId === null) {
-        const id = Math.random()
+        const id = duplicates.indexOf(value)
         duplicatesMap.set(value, id)
         copy._instanceReferenceId = id
       }
