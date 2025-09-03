@@ -1,6 +1,6 @@
 {
   "name": "wackson",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Ultra-lightweight JavaScript serializer/deserializer",
   "main": "wackson.js",
   "scripts": {

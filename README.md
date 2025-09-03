@@ -7,17 +7,17 @@ The goal is to send a complex object through the tubes, preserving custom classe
 You probably shouldn't use this. But if you can get away with it, it is < 100 lines of vanilla JS, so that's something.
 
 Handles:
-    - circular references
-    - by-reference object deduplication and structure recreation
-    - prototype restoration
+  - circular references
+  - by-reference object deduplication and structure recreation
+  - prototype restoration
 
 Does not handle:
-    - Array reference deduplication (will anyone need this? would have to add wrappers all over)
-    - function serialization (closures would be hell)
-    - more obscure data types like Map, Set, Symbol (some could be added fairly easily)
-    - side effects in constructors (don't do this anyway please)
-    - very old javascript versions
-    - And Much More!
+  - Array reference deduplication (will anyone need this? would have to add wrappers all over)
+  - function serialization (closures would be hell)
+  - more obscure data types like Map, Set, Symbol (some could be added fairly easily)
+  - side effects in constructors (don't do this anyway please)
+  - very old javascript versions
+  - And Much More!
 
 If you want it to do something else, you're probably better off just editing the code for your own needs rather than trying to make this package customizable.
 
