@@ -27,7 +27,7 @@ Currently untested, because to test it wouldn't be wack enough
 
 ## Usage
 
-If you pass a registry object (map of all relevant constructor names to constructors) to `deserialize`, it will restore the prototypes of serialized objects and `_constructorName` will be deleted. If you do not, they will be plain objects and they will still have a `_constrcutorName` property.
+If you pass a registry object (map of all relevant constructor names to constructors) to `deserialize`, it will restore the prototypes of serialized objects and `_constructorName` will be deleted. If you do not, they will be plain objects and they will still have a `_constructorName` property.
 
 ```
 import { serialize, deserialize } from 'wackson'
