@@ -21,9 +21,13 @@ Does not handle:
 
 If you want it to do something else, you're probably better off just editing the code for your own needs rather than trying to make this package customizable.
 
-Currently only available as the raw ES file because again, you can change the export format yourself; why maintain a build process...
-
 Currently untested, because to test it wouldn't be wack enough
+
+## Installation
+
+`npm install wackson`
+
+Currently only available as an ES module because again, you can change the export format yourself. Why maintain a build process...
 
 ## Usage
 
