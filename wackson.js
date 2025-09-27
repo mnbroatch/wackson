@@ -24,14 +24,42 @@ export function serialize (state, options) {
       }
 
       return copy
+    } else if (Object.is(value, -0)) {
+      return 'Wacksonegativezero'
+    } else {
+      switch (value) {
+        case Infinity:
+        return 'Wacksonfinity'
+        case -Infinity:
+        return 'Wacksonegativinfinity'
+        case NaN:
+        return 'Wacksonan'
+        case undefined:
+        return 'Wacksondefined'
+        default:
+        return value
+      }
     }
-
-    return value
   }, options?.space)
 }
 
 export function deserialize (serialized, registry) {
-  const parsed = JSON.parse(serialized)
+  const parsed = JSON.parse(serialized, (_, value) => {
+    switch (value) {
+      case 'Wacksonfinity':
+      return Infinity
+      case 'Wacksonegativinfinity':
+      return -Infinity
+      case 'Wacksonan':
+      return NaN
+      case 'Wacksondefined':
+      return undefined
+      case 'Wacksonegativezero':
+      return -0
+      default:
+      return value
+    }
+  })
   const idMap = new Map()
 
   // restore prototype, gather repeated instance placeholder meta
