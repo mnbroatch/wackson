@@ -17,8 +17,8 @@ Does not handle:
     - things like creating methods in the constructor (including binding functions) will also not work
   - Array reference deduplication (will anyone need this? would have to add wrappers all over)
   - more obscure data types like Map, Set, Symbol (some could be added fairly easily if anyone needs them)
-  - side effects in constructors (don't do this anyway please)
-    - again though, even creating new methods in the constructor will not work, careful!
+  - constructors do not re-run on serialization
+    - so no external side effects in constructors (don't do this anyway please)
   - very old javascript versions
   - And Much More!
 
