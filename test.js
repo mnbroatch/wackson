@@ -41,6 +41,24 @@ assert(deserializedClassStuff._constructorName === undefined)
 assert(deserializedClassStuff.self instanceof Y)
 assert(deserializedClassStuff.blah instanceof X)
 
+const weirdStuff = {
+  a: undefined,
+  b: null,
+  c: NaN,
+  d: Infinity,
+  e: -Infinity,
+  f: -0,
+}
+
+const deserializedWeirdStuff = deserialize(serialize(weirdStuff))
+
+assert(deserializedWeirdStuff.a === undefined)
+assert(deserializedWeirdStuff.b === null)
+assert(Number.isNaN(deserializedWeirdStuff.c))
+assert(deserializedWeirdStuff.d === Infinity)
+assert(deserializedWeirdStuff.e === -Infinity)
+assert(Object.is(deserializedWeirdStuff.f, -0))
+
 function assert (val) {
   if (!val) {
     throw new Error('assertion failed')

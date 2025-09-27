@@ -24,6 +24,8 @@ export function serialize (state, options) {
       }
 
       return copy
+    } else if (Number.isNaN(value)) {
+      return 'Wacksonan'
     } else if (Object.is(value, -0)) {
       return 'Wacksonegativezero'
     } else {
@@ -32,8 +34,6 @@ export function serialize (state, options) {
         return 'Wacksonfinity'
         case -Infinity:
         return 'Wacksonegativinfinity'
-        case NaN:
-        return 'Wacksonan'
         case undefined:
         return 'Wacksondefined'
         default:
