@@ -12,10 +12,13 @@ Handles:
   - prototype restoration
 
 Does not handle:
+  - HUGE LIMITATION: function serialization (closures would be hell or maybe impossible)
+    - this means dependency injection can only be done with class instances
+    - things like creating methods in the constructor (including binding functions) will also not work
   - Array reference deduplication (will anyone need this? would have to add wrappers all over)
-  - function serialization (closures would be hell)
   - more obscure data types like Map, Set, Symbol (some could be added fairly easily if anyone needs them)
   - side effects in constructors (don't do this anyway please)
+    - again though, even creating new methods in the constructor will not work, careful!
   - very old javascript versions
   - And Much More!
 
