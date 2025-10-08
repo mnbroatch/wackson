@@ -20,6 +20,8 @@ Does not handle:
   - constructors do not re-run on serialization
     - so no external side effects in constructors (don't do this anyway please)
   - very old javascript versions
+  - already serialized chunks: can't serialize things that have _instanceReferenceId, etc.
+    - this is probably the next thing to be added
   - And Much More!
 
 If you want it to do something else, you're probably better off just editing the code for your own needs rather than trying to make this package customizable.
