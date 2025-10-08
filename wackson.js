@@ -19,7 +19,7 @@ export function serialize (state, options) {
         copy._instanceReferenceId = id
       }
 
-      if (value.constructor !== Object && value.constructor !== Array) {
+      if (value.constructor && value.constructor !== Object && value.constructor !== Array) {
         copy._constructorName = value.constructor.name
       }
 

@@ -13,7 +13,7 @@ Handles:
 
 Does not handle:
   - HUGE LIMITATION: function serialization (closures would be hell or maybe impossible)
-    - this means dependency injection can only be done with class instances
+    - this means dependency injection can only be done with class instances (or be used only once in constructor)
     - things like creating methods in the constructor (including binding functions) will also not work
   - Array reference deduplication (will anyone need this? would have to add wrappers all over)
   - more obscure data types like Map, Set, Symbol (some could be added fairly easily if anyone needs them)
