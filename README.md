@@ -120,5 +120,14 @@ console.log(deserialize(serializedStuff, { X, Y }))
 
 ```
 
+serialize() also takes an options object:
+
+```
+{
+    space: 2, // a common third argument to JSON.stringify,
+    deduplicateInstances: true, // true by default. If false, non-circular duplicate references will still have their data in the serialized output
+}
+```
+
 License: Steal away! I am not liable yada yada
 

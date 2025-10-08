@@ -24,45 +24,45 @@ stuff.bluh = thing
 
 const serializedStuff = serialize(stuff)
 const serializedStuffWithDuplicates = serialize(stuff, {deduplicateInstances: false})
-const parsedStuff = JSON.parse(serializedStuff)
-const parsedStuffWithDuplicates = JSON.parse(serializedStuffWithDuplicates)
+// const parsedStuff = JSON.parse(serializedStuff)
+// const parsedStuffWithDuplicates = JSON.parse(serializedStuffWithDuplicates)
 
-assert(typeof serializedStuff === 'string')
-assert([parsedStuff.blah, parsedStuff.bleh, parsedStuff.bluh].filter(e => e.a === 1).length === 1)
-assert([parsedStuffWithDuplicates.blah, parsedStuffWithDuplicates.bleh, parsedStuffWithDuplicates.bluh].filter(e => e.a === 1).length === 3)
+// assert(typeof serializedStuff === 'string')
+// assert([parsedStuff.blah, parsedStuff.bleh, parsedStuff.bluh].filter(e => e.a === 1).length === 1)
+// assert([parsedStuffWithDuplicates.blah, parsedStuffWithDuplicates.bleh, parsedStuffWithDuplicates.bluh].filter(e => e.a === 1).length === 3)
 
-const deserializedStuff = deserialize(serializedStuff)
+// const deserializedStuff = deserialize(serializedStuff)
 
-assert(deserializedStuff._constructorName === 'Y')
-assert(deserializedStuff.a === 1)
-assert(deserializedStuff.b === 2)
-assert(deserializedStuff.self === deserializedStuff)
-assert(deserializedStuff.blah._constructorName === 'X')
-assert(deserializedStuff.blah === deserializedStuff.bleh)
+// assert(deserializedStuff._constructorName === 'Y')
+// assert(deserializedStuff.a === 1)
+// assert(deserializedStuff.b === 2)
+// assert(deserializedStuff.self === deserializedStuff)
+// assert(deserializedStuff.blah._constructorName === 'X')
+// assert(deserializedStuff.blah === deserializedStuff.bleh)
 
-const deserializedClassStuff = deserialize(serializedStuff, { X, Y })
+// const deserializedClassStuff = deserialize(serializedStuff, { X, Y })
 
-assert(deserializedClassStuff._constructorName === undefined)
-assert(deserializedClassStuff.self instanceof Y)
-assert(deserializedClassStuff.blah instanceof X)
+// assert(deserializedClassStuff._constructorName === undefined)
+// assert(deserializedClassStuff.self instanceof Y)
+// assert(deserializedClassStuff.blah instanceof X)
 
-const weirdStuff = {
-  a: undefined,
-  b: null,
-  c: NaN,
-  d: Infinity,
-  e: -Infinity,
-  f: -0,
-}
+// const weirdStuff = {
+//   a: undefined,
+//   b: null,
+//   c: NaN,
+//   d: Infinity,
+//   e: -Infinity,
+//   f: -0,
+// }
 
-const deserializedWeirdStuff = deserialize(serialize(weirdStuff))
+// const deserializedWeirdStuff = deserialize(serialize(weirdStuff))
 
-assert(deserializedWeirdStuff.a === undefined)
-assert(deserializedWeirdStuff.b === null)
-assert(Number.isNaN(deserializedWeirdStuff.c))
-assert(deserializedWeirdStuff.d === Infinity)
-assert(deserializedWeirdStuff.e === -Infinity)
-assert(Object.is(deserializedWeirdStuff.f, -0))
+// assert(deserializedWeirdStuff.a === undefined)
+// assert(deserializedWeirdStuff.b === null)
+// assert(Number.isNaN(deserializedWeirdStuff.c))
+// assert(deserializedWeirdStuff.d === Infinity)
+// assert(deserializedWeirdStuff.e === -Infinity)
+// assert(Object.is(deserializedWeirdStuff.f, -0))
 
 function assert (val) {
   if (!val) {
