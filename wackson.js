@@ -1,28 +1,34 @@
 export function serialize (state, options) {
-  // preliminary scan allows us to tag only duplicate instances
-  const duplicates = [...walkCyclical(state).duplicates]
-  const duplicatesMap = new Map(duplicates.map(d => [d, null]))
-
-  // Second pass: replace repeated instances with placeholders, add _constructorName
+  const deduplicateInstances = options?.deduplicateInstances ?? true
+  
+  // Scan for duplicates and circular refs
+  const { duplicates, circularRefs } = walkCyclical(state)
+  
+  // Only track what we need based on options
+  const instancesToTrack = deduplicateInstances ? [...duplicates] : [...circularRefs]
+  const instancesMap = new Map(instancesToTrack.map(d => [d, null]))
+  
+  // Second pass: replace instances with placeholders, add _constructorName
   return JSON.stringify(state, (_, value) => {
     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-      const duplicateId = duplicatesMap.get(value)
-      if (typeof duplicateId === 'number') {
-        return { _instanceReference: duplicateId }
+      const instanceId = instancesMap.get(value)
+      
+      if (typeof instanceId === 'number') {
+        return { _instanceReference: instanceId }
       }
-
+      
       const copy = { ...value }
-
-      if (duplicateId === null) {
-        const id = duplicates.indexOf(value)
-        duplicatesMap.set(value, id)
+      
+      if (instanceId === null) {
+        const id = instancesToTrack.indexOf(value)
+        instancesMap.set(value, id)
         copy._instanceReferenceId = id
       }
-
+      
       if (value.constructor && value.constructor !== Object && value.constructor !== Array) {
         copy._constructorName = value.constructor.name
       }
-
+      
       return copy
     } else if (Number.isNaN(value)) {
       return 'Wacksonan'
@@ -31,13 +37,13 @@ export function serialize (state, options) {
     } else {
       switch (value) {
         case Infinity:
-        return 'Wacksonfinity'
+          return 'Wacksonfinity'
         case -Infinity:
-        return 'Wacksonegativinfinity'
+          return 'Wacksonegativinfinity'
         case undefined:
-        return 'Wacksondefined'
+          return 'Wacksondefined'
         default:
-        return value
+          return value
       }
     }
   }, options?.space)
@@ -94,26 +100,33 @@ export function deserialize (serialized, registry) {
   return parsed
 }
 
-function walkCyclical (value, visitor, seen = new WeakSet(), parent = null, key = null, duplicates = new Set()) {
-  if (typeof value !== 'object' || value === null) return duplicates
-
+function walkCyclical (value, visitor, seen = new WeakSet(), parent = null, key = null, path = new Set(), duplicates = new Set(), circularRefs = new Set()) {
+  if (typeof value !== 'object' || value === null) return { duplicates, circularRefs }
+  
   if (seen.has(value)) {
     duplicates.add(value)
-    return
+    // If it's in the current path, it's circular
+    if (path.has(value)) {
+      circularRefs.add(value)
+    }
+    return { duplicates, circularRefs }
   }
-
+  
   seen.add(value)
+  path.add(value)
   visitor?.(value, parent, key)
-
+  
   if (Array.isArray(value)) {
     for (let i = 0; i < value.length; i++) {
-      walkCyclical(value[i], visitor, seen, value, i, duplicates)
+      walkCyclical(value[i], visitor, seen, value, i, path, duplicates, circularRefs)
     }
   } else {
     for (const k of Object.keys(value)) {
-      walkCyclical(value[k], visitor, seen, value, k, duplicates)
+      walkCyclical(value[k], visitor, seen, value, k, path, duplicates, circularRefs)
     }
   }
-
-  return { duplicates }
+  
+  path.delete(value)
+  return { duplicates, circularRefs }
 }
+

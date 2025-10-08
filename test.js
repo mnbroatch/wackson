@@ -23,8 +23,13 @@ stuff.bleh = thing
 stuff.bluh = thing
 
 const serializedStuff = serialize(stuff)
+const serializedStuffWithDuplicates = serialize(stuff, {deduplicateInstances: false})
+const parsedStuff = JSON.parse(serializedStuff)
+const parsedStuffWithDuplicates = JSON.parse(serializedStuffWithDuplicates)
 
 assert(typeof serializedStuff === 'string')
+assert([parsedStuff.blah, parsedStuff.bleh, parsedStuff.bluh].filter(e => e.a === 1).length === 1)
+assert([parsedStuffWithDuplicates.blah, parsedStuffWithDuplicates.bleh, parsedStuffWithDuplicates.bluh].filter(e => e.a === 1).length === 3)
 
 const deserializedStuff = deserialize(serializedStuff)
 
