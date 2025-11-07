@@ -12,16 +12,14 @@ Handles:
   - prototype restoration
 
 Does not handle:
+  - HUGE LIMITATION: extra properties on arrays will be lost, and arrays won't have their references deduplicated
   - HUGE LIMITATION: function serialization (closures would be hell or maybe impossible)
-    - this means dependency injection can only be done with class instances (or be used only once in constructor)
+    - this means dependency injection can only be done with class instances (or be used only in constructor)
     - things like creating methods in the constructor (including binding functions) will also not work
-  - Array reference deduplication (will anyone need this? would have to add wrappers all over)
   - more obscure data types like Map, Set, Symbol (some could be added fairly easily if anyone needs them)
-  - constructors do not re-run on serialization
-    - so no external side effects in constructors (don't do this anyway please)
+  - constructors do not re-run on deserialization
   - very old javascript versions
   - already serialized chunks: can't serialize things that have _instanceReferenceId, etc.
-    - this is probably the next thing to be added
   - And Much More!
 
 If you want it to do something else, you're probably better off just editing the code for your own needs rather than trying to make this package customizable.
